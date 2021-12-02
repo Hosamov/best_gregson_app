@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Prompt:wght@300&display=swap');
+
+body {
+  font-family: "Prompt", sans-serif;
+}
+
+button {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  position: relative;
+  background-color: orange;
+  border-radius: 5px;
+  width: 90%;
+  margin: auto;
+  display: block;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: yellow;
+}
+
+.header-container {
+  text-align: center;
+}
+
+.header-container h1 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 2.5rem;
+}
+
+table.sibling-ranks {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sibling-ranks {
+  font-size: 1.6rem;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.sibling-ranks th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-weight: bold;
+  text-align: left;
+  background-color: rgba(124,129,221,0.5);
+  padding-left: 10px;
+}
+
+.sibling-ranks td, .sibling-ranks th {
+  border: 2px solid rgba(0,0,0,0.2);
+}
+
+footer {
+  text-align: center;
+}

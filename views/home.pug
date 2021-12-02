@@ -1,0 +1,24 @@
+extends layout.pug
+
+block content   
+  .header-container
+    h1 👏 Best Gregson Sibling 👏
+    
+    table#sibling-ranks.sibling-ranks
+      tr
+        th.rank Rank
+        th Sibling
+        th Vote
+        th Vote Count
+      
+      - var count = 1;
+      each sibling in siblings
+        
+        tr#rank
+          td=count++
+          td=sibling.name
+          td 
+            button(class=`${sibling.name}`) Vote!
+          td(id=`vote-count-${sibling.name.toLowerCase()}`)=sibling.voteCount
+          
+  script(src='/static/js/script.js')
