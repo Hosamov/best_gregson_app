@@ -18,7 +18,8 @@ block content
           td=count++
           td=sibling.name
           td 
-            button(class=`${sibling.name}`) Vote!
+            form(action="/" method="POST")
+              button(type="submit" class=`${sibling.name}` name="theSibling" value=`${sibling.name}`) Vote!
           td(id=`vote-count-${sibling.name.toLowerCase()}`)=sibling.voteCount
           
   script(src='/static/js/script.js')
