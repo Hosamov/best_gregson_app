@@ -19,111 +19,36 @@ app.use(express.static("public"));
 // Mongoose schema for the siblings app
 const siblingsSchema = new mongoose.Schema ({
   name: String,
-  voteCount: Number
+  voteCount: Number,
+  rank: Number
 });
 
 const Sibling = mongoose.model('Sibling', siblingsSchema);
 
-const sibling1 = new Sibling ({
-  name: 'Roy',
-  voteCount: 0
-});
-const sibling2 = new Sibling ({
-  name: 'Sally',
-  voteCount: 0
-});
-const sibling3 = new Sibling ({
-  name: 'Jason',
-  voteCount: 0
-});
-const sibling4 = new Sibling ({
-  name: 'Jonny',
-  voteCount: 0
-});
-const sibling5 = new Sibling ({
-  name: 'Nathan',
-  voteCount: 0
-});
-const sibling6 = new Sibling ({
-  name: 'Abby',
-  voteCount: 0
-});
-
-const sibling7 = new Sibling ({
-  name: 'Kenny',
-  voteCount: 0
-});
-
-const sibling8 = new Sibling ({
-  name: 'Charles',
-  voteCount: 0
-});
-
-const sibling9 = new Sibling ({
-  name: 'Reuben',
-  voteCount: 0
-});
-
-const sibling10 = new Sibling ({
-  name: 'Jesse',
-  voteCount: 0
-});
-
-const sibling11 = new Sibling ({
-  name: 'Savannah',
-  voteCount: 0
-});
-
-const sibling12 = new Sibling ({
-  name: 'Bailey',
-  voteCount: 0
-});
-
-const defaultItems = [sibling1, sibling2, sibling3, sibling4, sibling5,
-                      sibling6, sibling7, sibling8, sibling9, sibling10,
-                      sibling11, sibling12];
-//
-// Sibling.insertMany(defaultItems, function(err) {
-//   if(err) {
-//     console.log(err);
-//   } else {
-//     console.log("Successfully saved default items to DB.");
-//   }
-// });
-
 // Root "/" Directory
 app.get('/', (req, res, next) => {
+  let votes = [];
   // Search mongoDB collection:
-  Sibling.find({}, (err, siblings) => {
-    console.log(siblings)
-    res.render('home', { siblings }); // Render home template, passing siblings data
-  });
+  Sibling.find({voteCount: {$gte: 0}}, (err, siblings) => {
+    // siblings.forEach(sibling => {
+    //   if(sibling.voteCount > 0 && sibling.voteCount )
+    // })
 
+    res.render('home', { siblings }); // Render home template, passing in siblings data
+  }).sort({voteCount: -1});
 });
 
 app.post('/', (req, res) => {
   const siblingName = req.body.theSibling;
 
+  // Increment votecount by 1 for selected sibling:
   Sibling.findOneAndUpdate({name: siblingName}, {$inc : { 'voteCount': 1}}, {new: true}, (err, res) => {
     if(err) {
       console.log(err);
     } else {
       console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
     }
-
   });
-
-
-  // console.log(siblingName);
-  // // voteCount
-  //
-  // Sibling.updateOne({name: siblingName}, {voteCount: `${siblingName.voteCount}`}, (err) => {
-  //   if(err) {
-  //     console.log(err);
-  //   } else {
-  //     console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
-  //   }
-  // })
 });
 
 // Admin/testing purposes only
@@ -133,7 +58,7 @@ app.get('/resetallvotes', (req, res) => {
       console.log(err);
     } else {
       console.log(`Successfully reset all sibling votecounts...`);
-    }  
+    }
   })
   res.redirect('/');
 });
@@ -145,15 +70,13 @@ app.use((req, res, next) => {
   err.message = `It appears the page you requested doesn't exist.`;
   err.status = 404;
 
-  //log out the error code, and stack to the console, including message
+  // Log out the error code, and stack to the console, including message
   console.log('Error status code: ' + err.status);
   console.log(err.stack);
 
   //render the page-not-found template
   res.status(404).render('page-not-found'); //display a generic 404 page without error stack
 });
-
-
 
 app.listen(8000, () => {
   console.log('Server running on port 8000...');

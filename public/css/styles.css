@@ -2,6 +2,8 @@
 
 body {
   font-family: "Prompt", sans-serif;
+  /* background-color: black;
+  color: #fff; */
 }
 
 button {
@@ -53,6 +55,28 @@ table.sibling-ranks {
   border: 2px solid rgba(0,0,0,0.2);
 }
 
+
+
+a:link {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:visited {
+ color: fff;
+ text-direction: none;
+}
+
+a:active {
+  color: #fff;
+}
+
+a:hover {
+  cursor: pointer;
+  color: #fff;
+}
+
 footer {
   text-align: center;
+  color #fff;
 }
