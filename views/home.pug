@@ -6,28 +6,22 @@ block content
     
     table#sibling-ranks.sibling-ranks
       tr
-        th Rank
-        th Sibling
-        th Vote
-        th Vote Count
-          a(href="./" class="refresh-page")  🔄
+        th(class="rank-th thead") Rank
+        th(class="sibling-th thead") Sibling
+        th(class="vote-th thead") Vote
+        th(class="votecount-th thead") Vote Count
       
       - var count = 1;
       each sibling in siblings
-        tr
-          td 1 👑
-          //- td(class="sibling-name")=sibling.name
-          //- td 
-          //-   form(action="/" method="POST")
-          //-     button(type="submit" class=`${sibling.name}` name="theSibling" value=`${sibling.name}`) Vote!
-          //- td(id=`vote-count-${sibling.name.toLowerCase()}`)=sibling.voteCount
-        if (count > 1)
-        td=count++
-        td(class="sibling-name")=sibling.name
-        td 
-          form(action="/" method="POST")
-            button(type="submit" class=`${sibling.name}` name="theSibling" value=`${sibling.name}`) Vote!
-        td(id=`vote-count-${sibling.name.toLowerCase()}`)=sibling.voteCount
+        tr(id="ranks")
+          td(class="rank")=count++ 
+          td(class="sibling-name")=sibling.name
+          td 
+            form(action="/" method="POST")
+              button(type="submit" class=`${sibling.name}` name="theSibling" value=`${sibling.name}`) Vote!
+          td(id=`vote-count-${sibling.name.toLowerCase()}`)=sibling.voteCount
+  .refresh
+    a(href="./" class="refresh-page")  🔄
 
           
   script(src='/static/js/script.js')

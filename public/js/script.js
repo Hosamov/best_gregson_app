@@ -1,48 +1,6 @@
-// Refresh page every 30 seconds by default:
-window.onload = setInterval(function() {
-  console.log('Refreshing page...');
-  location.reload();
-}, 10000);
-
-// Sibling names for verification purposes:
-let siblings = [
-    {
-      name: 'Roy',
-    },
-    {
-      name: 'Sally',
-    },
-    {
-      name: 'Jason',
-    },
-    {
-      name: 'Jonny',
-    },
-    {
-      name: 'Nathan',
-    },
-    {
-      name: 'Abby',
-    },
-    {
-      name: 'Kenny',
-    },
-    {
-      name: 'Charles',
-    },
-    {
-      name: 'Reuben',
-    },
-    {
-      name: 'Jesse',
-    },
-    {
-      name: 'Savannah',
-    },
-    {
-      name: 'Bailey',
-    }
-];
+// Sibling with highest vote count gets the crown
+const ranks = document.getElementById('ranks');
+ranks.firstElementChild.innerText = "1 👑";
 
 // Update vote count displayed to user:
 function updateVoteCount(sibling, voteCount, add) {
@@ -69,3 +27,16 @@ for(let i = 0; i < button.length; i++) {
     ) : console.log("I can't find that sibling");
   });
 }
+
+const btnJonny = document.querySelector('.Jonny');
+console.log(btnJonny);
+
+// const reloadIcon = document.querySelector('.refresh-page');
+//
+// // When refresh icon is clicked, reload page every 10s
+// reloadIcon.addEventListener('click', () => {
+//   setInterval(function() {
+//     console.log('Refreshing page...');
+//     location.reload();
+//   }, 10000)
+// });
