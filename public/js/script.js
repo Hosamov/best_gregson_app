@@ -27,16 +27,3 @@ for(let i = 0; i < button.length; i++) {
     ) : console.log("I can't find that sibling");
   });
 }
-
-const btnJonny = document.querySelector('.Jonny');
-console.log(btnJonny);
-
-// const reloadIcon = document.querySelector('.refresh-page');
-//
-// // When refresh icon is clicked, reload page every 10s
-// reloadIcon.addEventListener('click', () => {
-//   setInterval(function() {
-//     console.log('Refreshing page...');
-//     location.reload();
-//   }, 10000)
-// });
