@@ -30,10 +30,6 @@ app.get('/', (req, res, next) => {
   let votes = [];
   // Search mongoDB collection:
   Sibling.find({voteCount: {$gte: 0}}, (err, siblings) => {
-    // siblings.forEach(sibling => {
-    //   if(sibling.voteCount > 0 && sibling.voteCount )
-    // })
-
     res.render('home', { siblings }); // Render home template, passing in siblings data
   }).sort({voteCount: -1});
 });
@@ -78,6 +74,6 @@ app.use((req, res, next) => {
   res.status(404).render('page-not-found'); //display a generic 404 page without error stack
 });
 
-app.listen(8000, () => {
-  console.log('Server running on port 8000...');
+app.listen(3000, () => {
+  console.log('Server running on port 3000...');
 });

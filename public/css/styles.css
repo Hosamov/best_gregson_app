@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Prompt:wght@300&display=swap');
 
+/*
+colors:
+#745bc2
+#d2ddae
+#c2de69
+*/
+
+
 body {
   font-family: "Prompt", sans-serif;
   /* background-color: #0a434a; */
@@ -10,17 +18,21 @@ button {
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.5rem;
   position: relative;
-  background-color: #ffa515;
+  /* background-color: #ffa515; */
+  background-color: #c2de69;
+  color: #4f4f4f;
+  border: none;
   border-radius: 5px;
   width: 90%;
   margin: auto;
   display: block;
+
 }
 
 button:hover {
   cursor: pointer;
-  background-color: #c77b00;
-  color: #fff;
+  /* background-color: #c77b00; */
+  background-color: #ddebb2;
 }
 
 .header-container {
@@ -48,12 +60,12 @@ table.sibling-ranks {
   padding-bottom: 12px;
   font-weight: bold;
   text-align: left;
-  background-color: rgba(30,203,225,0.8);
+  background-color: rgba(116,91,194,0.8);
   padding-left: 10px;
 }
 
 .sibling-ranks td, .sibling-ranks th {
-  border: 2px solid rgba(30,203,225,0.25);
+  border: 2px solid rgba(116,91,194,0.25);
 }
 
 .thead {

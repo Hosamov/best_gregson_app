@@ -1,6 +1,13 @@
+window.onload = setTimeout(function() {
+  console.log('Refreshing browser...');
+  location.reload();
+}, 30000);
+
+
 // Sibling with highest vote count gets the crown
 const ranks = document.getElementById('ranks');
 ranks.firstElementChild.innerText = "1 👑";
+
 
 // Update vote count displayed to user:
 function updateVoteCount(sibling, voteCount, add) {
@@ -22,7 +29,6 @@ for(let i = 0; i < button.length; i++) {
 
   button[i].addEventListener('click', () => {
     button[i].className === siblingNames[i].innerText ? (
-      console.log(siblingNames[i].innerText, siblingNames[i].innerText, voteCountSibling.textContent),
       updateVoteCount(siblingNames[i].innerText, voteCountSibling.textContent, true)
     ) : console.log("I can't find that sibling");
   });
