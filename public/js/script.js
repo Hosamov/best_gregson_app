@@ -5,7 +5,6 @@ window.onload = setTimeout(function() {
 
 // Sibling with highest vote count gets the crown
 const ranks = document.getElementById('ranks');
-// ranks.firstElementChild.innerText = "1 👑";
 ranks.firstElementChild.innerHTML = `1 <img src="../images/crown.png" class="img-crown">`;
 
 // Update vote count displayed to user:
