@@ -82,18 +82,25 @@ a:link {
   text-decoration: none;
 }
 
+.img-crown {
+  width: 1.6rem;
+  height: auto;
+}
+
 .refresh {
   text-align: center;
   padding-top: 10px;
 }
 
-.refresh-page {
+.img-refresh {
   margin-left: auto;
   margin-right: auto;
-  font-size: 3rem;
+  width: 3rem;
+  height: auto;
+  border-radius: 5px;
 }
 
-.refresh-page:hover {
+.img-refresh:hover {
   cursor: pointer;
   color: #fff;
   border: 3px solid orange;
