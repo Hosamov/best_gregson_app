@@ -3,11 +3,9 @@ window.onload = setTimeout(function() {
   location.reload();
 }, 30000);
 
-
 // Sibling with highest vote count gets the crown
 const ranks = document.getElementById('ranks');
 ranks.firstElementChild.innerText = "1 👑";
-
 
 // Update vote count displayed to user:
 function updateVoteCount(sibling, voteCount, add) {
