@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
-// const { siblings } = require('./data.json'); //serve data.json as an object
 
 // Initialize DB:
 require('./initDB')();
@@ -27,7 +26,6 @@ const Sibling = mongoose.model('Sibling', siblingsSchema);
 
 // Root "/" Directory
 app.get('/', (req, res, next) => {
-  let votes = [];
   // Search mongoDB collection:
   Sibling.find({voteCount: {$gte: 0}}, (err, siblings) => {
     res.render('home', { siblings }); // Render home template, passing in siblings data
