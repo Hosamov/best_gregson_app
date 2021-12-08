@@ -10,19 +10,20 @@ ranks.firstElementChild.innerHTML = `1 <img src="../images/crown.png" class="img
 // Update vote count displayed to user:
 function updateVoteCount(sibling, voteCount, add) {
   const voteCountSibling = document.getElementById(`vote-count-${sibling.toLowerCase()}`);
-  if(add) {
-    voteCountSibling.innerHTML = +voteCount+1;
+  if (add) {
+    voteCountSibling.innerHTML = +voteCount + 1;
   } else {
     voteCountSibling.innerHTML = voteCount;
   }
 }
 
 const button = document.getElementsByTagName('button');
+const siblingNames = document.querySelectorAll('.sibling-name');
 
-for(let i = 0; i < button.length; i++) {
+for (let i = 0; i < button.length; i++) {
 
   // Target vote count cell of each sibling:
-  const siblingNames = document.querySelectorAll('.sibling-name');
+
   const voteCountSibling = document.getElementById(`vote-count-${siblingNames[i].innerText.toLowerCase()}`);
 
   button[i].addEventListener('click', () => {
@@ -31,3 +32,14 @@ for(let i = 0; i < button.length; i++) {
     ) : console.log("I can't find that sibling");
   });
 }
+
+const refreshContainer = document.querySelector('.refresh');
+refreshContainer.insertAdjacentHTML('afterbegin',`<button class="random-btn" id="random-btn">Cast Random Vote</button>`);
+const randomBtn = document.getElementById('random-btn');
+
+// Cast random vote:
+randomBtn.addEventListener('click', () => {
+  const randomVote = Math.floor(Math.random() * 12);
+  const randomVoteCount = document.getElementById(`vote-count-${siblingNames[randomVote].innerText.toLowerCase()}`);
+  updateVoteCount(siblingNames[randomVote].innerText, randomVoteCount.textContent, true);
+});

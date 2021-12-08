@@ -92,6 +92,12 @@ a:link {
   padding-top: 10px;
 }
 
+.random-btn {
+  max-width: 250px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
 .img-refresh {
   margin-left: auto;
   margin-right: auto;
