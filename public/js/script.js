@@ -7,7 +7,7 @@ window.onload = setTimeout(function() {
 const ranks = document.getElementById('ranks');
 ranks.firstElementChild.innerHTML = `1 <img src="../images/crown.png" class="img-crown">`;
 
-// Update vote count displayed to user:
+// Update vote count displayed to user (in real time):
 function updateVoteCount(sibling, voteCount, add) {
   const voteCountSibling = document.getElementById(`vote-count-${sibling.toLowerCase()}`);
   if (add) {
@@ -37,7 +37,7 @@ for (let i = 0; i < button.length; i++) {
 let randNum = Math.floor(Math.random() * siblingArr.length);
 let randName = siblingArr[randNum];
 
-// Dynamically add random-btn HTML:
+// Dynamically add random-btn to template:
 const randomVote = document.querySelector('.random-vote');
 randomVote.insertAdjacentHTML('afterbegin',`
   <form action="/" method="post">
@@ -45,12 +45,12 @@ randomVote.insertAdjacentHTML('afterbegin',`
   <form>`);
 
 const randomBtn = document.querySelector('.random-btn');
-// Keep name random in random-btn element:
+// Update random name on a constant basis:
 setInterval(() => {
   randNum = Math.floor(Math.random() * siblingArr.length);
   randName = siblingArr[randNum];
   randomBtn.value=randName;
-},500);
+},250);
 
 // Update vote count for random sibling, targeting random-btn element
 randomBtn.addEventListener('click', () => {
