@@ -19,11 +19,12 @@ function updateVoteCount(sibling, voteCount, add) {
 
 const button = document.getElementsByTagName('button');
 const siblingNames = document.querySelectorAll('.sibling-name');
+const siblingArr = []; // For storing all sibling names (used in random functionality)
 
 for (let i = 0; i < button.length; i++) {
+  siblingArr.push(siblingNames[i].innerText);
 
   // Target vote count cell of each sibling:
-
   const voteCountSibling = document.getElementById(`vote-count-${siblingNames[i].innerText.toLowerCase()}`);
 
   button[i].addEventListener('click', () => {
@@ -33,13 +34,26 @@ for (let i = 0; i < button.length; i++) {
   });
 }
 
-const refreshContainer = document.querySelector('.refresh');
-refreshContainer.insertAdjacentHTML('afterbegin',`<button class="random-btn" id="random-btn">Cast Random Vote</button>`);
-const randomBtn = document.getElementById('random-btn');
+let randNum = Math.floor(Math.random() * siblingArr.length);
+let randName = siblingArr[randNum];
 
-// Cast random vote:
+// Dynamically add random-btn HTML:
+const randomVote = document.querySelector('.random-vote');
+randomVote.insertAdjacentHTML('afterbegin',`
+  <form action="/" method="post">
+    <button type="submit" class="random-btn" name="theSibling" value=${randName}>Cast Random Vote</button>
+  <form>`);
+
+const randomBtn = document.querySelector('.random-btn');
+// Keep name random in random-btn element:
+setInterval(() => {
+  randNum = Math.floor(Math.random() * siblingArr.length);
+  randName = siblingArr[randNum];
+  randomBtn.value=randName;
+},500);
+
+// Update vote count for random sibling, targeting random-btn element
 randomBtn.addEventListener('click', () => {
-  const randomVote = Math.floor(Math.random() * 12);
-  const randomVoteCount = document.getElementById(`vote-count-${siblingNames[randomVote].innerText.toLowerCase()}`);
-  updateVoteCount(siblingNames[randomVote].innerText, randomVoteCount.textContent, true);
-});
+  const newVoteCount = document.getElementById(`vote-count-${randName.toLowerCase()}`);
+  updateVoteCount(randName, newVoteCount.textContent, true)
+})

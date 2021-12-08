@@ -21,8 +21,12 @@ block content
               button(type="submit" class=`${sibling.name}` name="theSibling" value=`${sibling.name}`) Vote!
           td(id=`vote-count-${sibling.name.toLowerCase()}`)=sibling.voteCount
   .refresh
-    a(href="./")  
-      img(src="/static/images/reload.png" class="img-refresh")
+    .random-vote
+    //- form(action="/" method="post")
+    //-   button(type="submit" class="random-btn" name="theSibling" value="Roy") Cast Random Vote
+    .refresh-page
+      a(href="./")  
+        img(src="/static/images/reload.png" class="img-refresh")
 
           
   script(src='/static/js/script.js')
