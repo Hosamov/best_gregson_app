@@ -12,11 +12,13 @@ app.set('view engine', 'pug'); // Using pug template
 //setup static middleware to serve static files in the public folder
 app.use('/static', express.static('public'));
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static("public"));
 
 // Mongoose schema for the siblings app
-const siblingsSchema = new mongoose.Schema ({
+const siblingsSchema = new mongoose.Schema({
   name: String,
   voteCount: Number,
   rank: Number
@@ -27,17 +29,34 @@ const Sibling = mongoose.model('Sibling', siblingsSchema);
 // Root "/" Directory
 app.get('/', (req, res, next) => {
   // Search mongoDB collection:
-  Sibling.find({voteCount: {$gte: 0}}, (err, siblings) => {
-    res.render('home', { siblings }); // Render home template, passing in siblings data
-  }).sort({voteCount: -1});
+  Sibling.find({
+    voteCount: {
+      $gte: 0
+    }
+  }, (err, siblings) => {
+    res.render('home', {
+      siblings
+    }); // Render home template, passing in siblings data
+  }).sort({
+    voteCount: -1
+  });
 });
 
 app.post('/', (req, res) => {
   const siblingName = req.body.theSibling;
+  const voteCount = req.body.voteCount;
 
   // Increment votecount by 1 for selected sibling:
-  Sibling.findOneAndUpdate({name: siblingName}, {$inc : { 'voteCount': 1}}, {new: true}, (err, res) => {
-    if(err) {
+  Sibling.findOneAndUpdate({
+    name: siblingName
+  }, {
+    $inc: {
+      'voteCount': 1
+    }
+  }, {
+    new: true
+  }, (err, res) => {
+    if (err) {
       console.log(err);
     } else {
       console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
@@ -47,11 +66,29 @@ app.post('/', (req, res) => {
 
 // Admin/testing purposes only
 app.get('/resetallvotes', (req, res) => {
-  Sibling.updateMany({}, {'voteCount': 0}, (err, res) => {
-    if(err) {
+  Sibling.updateMany({}, {
+    'voteCount': 0
+  }, (err, res) => {
+    if (err) {
       console.log(err);
     } else {
       console.log(`Successfully reset all sibling votecounts...`);
+    }
+  })
+  res.redirect('/');
+});
+
+// Admin/testing purposes only
+app.get('/nopejonny', (req, res) => {
+  Sibling.updateOne({
+    name: 'Jonny'
+  }, {
+    'voteCount': 6139
+  }, (err, res) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(`Successfully reset Jonny's votecounts...`);
     }
   })
   res.redirect('/');
