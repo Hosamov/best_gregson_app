@@ -63,21 +63,20 @@ randomBtn.addEventListener('click', () => {
 // Function to check if clicks are 390+ in a 1 minute timeframe
 function clickChecker() {
   let captchaKeys = captchaGenerator(); // TODO: Put this in an object?
-  let timer = setInterval(function(){myTimer()}, 60000);
+  let timer = setInterval(function(){myTimer()}, 60000); // 1 minute
 
   const myTimer = () => {
     const clickEnd = clicks;
     const cpm = clickEnd - clickStart;
     if(cpm >= 390) {
       displayModalwindow(captchaKeys[0], captchaKeys[1], captchaKeys[2]);
-      
     }
     clickStart = clickEnd; // Set clickStart to clickEnd last
     captchaKeys = captchaGenerator(); // Reset captcha keys
   }
 }
 
-// TODO: Add captcha data to function, allow for user calculation.
+// Function to display a modal window for CAPTCHA
 function displayModalwindow(cap1, cap2, capSum) {
   modal.insertAdjacentHTML('beforeend', `
     <div class="modal-container">
@@ -103,14 +102,15 @@ function displayModalwindow(cap1, cap2, capSum) {
       modalDiv.innerHTML = '<h2 class="thankyou">Thank you.</h2>'
       setTimeout(()=> {
         modal.lastElementChild.remove(); //exit out of modal window
-      }, 1000);
-      
+      }, 1000);  
     } else {
       modalInstructions.innerHTML = 'That answer is incorrect. Please try again.';
     }
   });
 }
 
+
+// Generate two random numbers
 function captchaGenerator() {
   const captchaArr = [];
   const num1 = Math.ceil(Math.random() * 99);
