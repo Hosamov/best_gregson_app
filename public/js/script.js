@@ -63,16 +63,12 @@ randomBtn.addEventListener('click', () => {
 // Function to check if clicks are 390+ in a 1 minute timeframe
 function clickChecker() {
   let captchaKeys = captchaGenerator(); // TODO: Put this in an object?
-  // console.log(captchaKeys);
-  // let timer = setInterval(function(){myTimer()}, 60000);
-  let timer = setInterval(function(){myTimer()}, 10000);
+  let timer = setInterval(function(){myTimer()}, 60000);
 
   const myTimer = () => {
     const clickEnd = clicks;
     const cpm = clickEnd - clickStart;
-    console.log(cpm);
-    // if(cpm >= 390) {
-    if(cpm >= 1) {
+    if(cpm >= 390) {
       displayModalwindow(captchaKeys[0], captchaKeys[1], captchaKeys[2]);
       
     }
@@ -83,8 +79,6 @@ function clickChecker() {
 
 // TODO: Add captcha data to function, allow for user calculation.
 function displayModalwindow(cap1, cap2, capSum) {
-  console.log(cap1, cap2, capSum);
-  // const modalWindow = document.getElementById('modal');
   modal.insertAdjacentHTML('beforeend', `
     <div class="modal-container">
         <div class="modal">
@@ -105,9 +99,8 @@ function displayModalwindow(cap1, cap2, capSum) {
 
   modalSubmitBtn.addEventListener('click', () => {
     const inputAnswer = document.getElementById('id-answer').value;
-    console.log(capSum, +inputAnswer);
     if(+inputAnswer === capSum) {
-      modalDiv.innerHTML = '<h2>Thank you.</h2>'
+      modalDiv.innerHTML = '<h2 class="thankyou">Thank you.</h2>'
       setTimeout(()=> {
         modal.lastElementChild.remove(); //exit out of modal window
       }, 1000);
