@@ -63,12 +63,12 @@ randomBtn.addEventListener('click', () => {
 // Function to check if clicks are 390+ in a 1 minute timeframe
 function clickChecker() {
   let captchaKeys = captchaGenerator(); // TODO: Put this in an object?
-  let timer = setInterval(function(){myTimer()}, 10000); // 1 minute
+  let timer = setInterval(function(){myTimer()}, 60000); // 1 minute
 
   const myTimer = () => {
     const clickEnd = clicks;
     const cpm = clickEnd - clickStart;
-    if(cpm >= 1) {
+    if(cpm >= 390) {
       displayModalwindow(captchaKeys[0], captchaKeys[1], captchaKeys[2]);
     }
     clickStart = clickEnd; // Set clickStart to clickEnd last
