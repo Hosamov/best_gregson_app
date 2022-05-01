@@ -63,12 +63,12 @@ randomBtn.addEventListener('click', () => {
 // Function to check if clicks are 390+ in a 1 minute timeframe
 function clickChecker() {
   let captchaKeys = captchaGenerator(); // TODO: Put this in an object?
-  let timer = setInterval(function(){myTimer()}, 60000); // 1 minute
+  let timer = setInterval(function(){myTimer()}, 10000); // 1 minute
 
   const myTimer = () => {
     const clickEnd = clicks;
     const cpm = clickEnd - clickStart;
-    if(cpm >= 390) {
+    if(cpm >= 1) {
       displayModalwindow(captchaKeys[0], captchaKeys[1], captchaKeys[2]);
     }
     clickStart = clickEnd; // Set clickStart to clickEnd last
@@ -84,7 +84,6 @@ function displayModalwindow(cap1, cap2, capSum) {
           
             <h2>CAPTCHA</h2>
             <p id="modal-instructions">Please answer the following question:</p>
-            <br>
             <p>What is ${cap1} + ${cap2}?</p>
             <input type="text" id="id-answer">
 
@@ -104,7 +103,7 @@ function displayModalwindow(cap1, cap2, capSum) {
         modal.lastElementChild.remove(); //exit out of modal window
       }, 1000);  
     } else {
-      modalInstructions.innerHTML = 'That answer is incorrect. Please try again.';
+      modalInstructions.innerHTML = '<img src="../images/magicword.gif" class="image-mw">';
     }
   });
 }

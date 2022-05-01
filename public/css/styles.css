@@ -176,3 +176,11 @@ footer {
   border-radius: 0.25em;
   bottom: 20px;
 }
+
+.image-mw {
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
