@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require("body-parser");
+const timeout = require('connect-timeout');
 const mongoose = require('mongoose');
 
 // Initialize DB:
@@ -42,7 +43,7 @@ app.get('/', (req, res, next) => {
   });
 });
 
-app.post('/', (req, res) => {
+app.post('/', (req, res, next) => {
   const siblingName = req.body.theSibling;
   const voteCount = req.body.voteCount;
 
@@ -63,6 +64,16 @@ app.post('/', (req, res) => {
     }
   });
 });
+
+// function haltOnTimedout (req, res, next) {
+//   if(!req.timedout) next();
+// }
+
+// function savePost(post, cb) {
+//   setTimeout(function () {
+//     cb(null, ((Math.random() * 40000) >>> 0))
+//   }, (Math.random() * 7000) >>> 0)
+// }
 
 // Admin/testing purposes only
 app.get('/resetallvotes', (req, res) => {
