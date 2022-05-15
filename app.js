@@ -42,12 +42,13 @@ app.get('/', (req, res, next) => {
   });
 });
 
-app.post('/', async (req, res, next) => {
+app.post('/', (req, res, next) => {
   const siblingName = req.body.theSibling;
   const voteCount = req.body.voteCount;
-  try {
+  
+  const sendUpdate = () => {
     // Increment votecount by 1 for selected sibling:
-    await Sibling.findOneAndUpdate({
+    Sibling.findOneAndUpdate({
       name: siblingName
     }, {
       $inc: {
@@ -61,11 +62,10 @@ app.post('/', async (req, res, next) => {
       } else {
         console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
       }
-    }).exec();
-  } catch (err) {
-    return 'Error occurred';
+    });
   }
-  
+
+  setTimeout(sendUpdate, 1000);
 });
 
 // Admin/testing purposes only
