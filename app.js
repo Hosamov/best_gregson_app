@@ -45,27 +45,65 @@ app.get('/', (req, res, next) => {
 app.post('/', (req, res, next) => {
   const siblingName = req.body.theSibling;
   const voteCount = req.body.voteCount;
-  
-  const sendUpdate = () => {
-    // Increment votecount by 1 for selected sibling:
-    Sibling.findOneAndUpdate({
-      name: siblingName
-    }, {
-      $inc: {
-        'voteCount': 1
-      }
-    }, {
-      new: true
-    }, (err, res) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
-      }
-    });
-  }
 
-  setTimeout(sendUpdate, 1000);
+  const sendUpdate = new Promise((resolve, reject) => {
+    if(res.statusCode >= 200 && res.statusCode < 300) {
+      const findSibling = () => {
+        Sibling.findOneAndUpdate({
+          name: siblingName
+        }, {
+          $inc: {
+            'voteCount': 1
+          }
+        }, {
+          new: true
+        }, (err, res) => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
+          }
+        });
+      }
+      return resolve(findSibling());
+    } else {
+      const why = 'Server Response Error.';
+      return reject(why);
+    }
+  });
+  
+  // const sendUpdate = () => {
+  //   // Increment votecount by 1 for selected sibling:
+  //   Sibling.findOneAndUpdate({
+  //     name: siblingName
+  //   }, {
+  //     $inc: {
+  //       'voteCount': 1
+  //     }
+  //   }, {
+  //     new: true
+  //   }, (err, res) => {
+  //     if (err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
+  //     }
+  //   });
+  // }
+
+  const checkIfComplete = () => {
+    sendUpdate
+      .then(ok => {
+        console.log('OK');
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  };
+
+  checkIfComplete();
+
+  // setTimeout(sendUpdate, 1000);
 });
 
 // Admin/testing purposes only
