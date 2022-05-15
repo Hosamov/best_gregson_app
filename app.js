@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const timeout = require('connect-timeout');
 const mongoose = require('mongoose');
 
 // Initialize DB:
@@ -43,37 +42,31 @@ app.get('/', (req, res, next) => {
   });
 });
 
-app.post('/', (req, res, next) => {
+app.post('/', async (req, res, next) => {
   const siblingName = req.body.theSibling;
   const voteCount = req.body.voteCount;
-
-  // Increment votecount by 1 for selected sibling:
-  Sibling.findOneAndUpdate({
-    name: siblingName
-  }, {
-    $inc: {
-      'voteCount': 1
-    }
-  }, {
-    new: true
-  }, (err, res) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
-    }
-  });
+  try {
+    // Increment votecount by 1 for selected sibling:
+    await Sibling.findOneAndUpdate({
+      name: siblingName
+    }, {
+      $inc: {
+        'voteCount': 1
+      }
+    }, {
+      new: true
+    }, (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
+      }
+    }).exec();
+  } catch (err) {
+    return 'Error occurred';
+  }
+  
 });
-
-// function haltOnTimedout (req, res, next) {
-//   if(!req.timedout) next();
-// }
-
-// function savePost(post, cb) {
-//   setTimeout(function () {
-//     cb(null, ((Math.random() * 40000) >>> 0))
-//   }, (Math.random() * 7000) >>> 0)
-// }
 
 // Admin/testing purposes only
 app.get('/resetallvotes', (req, res) => {
