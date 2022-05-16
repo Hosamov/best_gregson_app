@@ -81,7 +81,7 @@ function haltOnTimedout(req, res, next) {
 function saveVote (name, vote, cb) {
   setTimeout(() => {
     cb(saveNewVote(name, vote) >>> 0) // Pass in name and vote for a new vote to be saved
-  }, (30000) >>> 0
+  }, (10000) >>> 0
   // }, (Math.random() * 7000) >>> 0
 )}
 
