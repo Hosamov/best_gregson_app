@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+const timeout = require('connect-timeout');
 
 // Initialize DB:
 require('./initDB')();
@@ -42,72 +43,50 @@ app.get('/', (req, res, next) => {
   });
 });
 
-app.post('/', (req, res, next) => {
+app.post('/', timeout('5s'), bodyParser.json(), haltOnTimedout, (req, res, next) => {
   const siblingName = req.body.theSibling;
-  const voteCount = req.body.voteCount;
-
-  const sendUpdate = new Promise((resolve, reject) => {
-    if(res.statusCode >= 200 && res.statusCode < 300) {
-      const findSibling = () => {
-        Sibling.findOneAndUpdate({
-          name: siblingName
-        }, {
-          $inc: {
-            'voteCount': 1
-          }
-        }, {
-          new: true
-        }, (err, res) => {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
-          }
-        });
-      }
-      return resolve(findSibling());
-    } else {
-      const why = 'Server Response Error.';
-      return reject(why);
-    }
-  });
   
-  // const sendUpdate = () => {
-  //   // Increment votecount by 1 for selected sibling:
-  //   Sibling.findOneAndUpdate({
-  //     name: siblingName
-  //   }, {
-  //     $inc: {
-  //       'voteCount': 1
-  //     }
-  //   }, {
-  //     new: true
-  //   }, (err, res) => {
-  //     if (err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log(`Successfully incremented a new vote to sibling ${siblingName}`);
-  //     }
-  //   });
-  // }
-
-  const checkIfComplete = () => {
-    sendUpdate
-      .then(ok => {
-        console.log('OK');
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  };
-
-  checkIfComplete();
-
-  // setTimeout(sendUpdate, 1000);
+  // Send data to be tested to saveVote:
+  saveVote(siblingName, 1, (err, data) => {
+    if(err) return next(err);
+    if(req.timedout) return;
+  });
 });
 
+// Function to save a new vote for appropriate sibling:
+function saveNewVote(name, voteCount) {
+  Sibling.findOneAndUpdate({
+    name: name
+    }, {
+      $inc: {
+        'voteCount': voteCount
+      }
+    }, {
+      new: true
+    }, (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`Successfully incremented a new vote to sibling ${name}`);
+      }
+  });
+}
+
+// Send to error handler if no timeout:
+function haltOnTimedout(req, res, next) {
+  if(!req.timedout) next();
+}
+
+// Save vote on a timeout:
+function saveVote (name, vote, cb) {
+  setTimeout(() => {
+    cb(saveNewVote(name, vote) >>> 0) // Pass in name and vote for a new vote to be saved
+  }, (30000) >>> 0
+  // }, (Math.random() * 7000) >>> 0
+)}
+
 // Admin/testing purposes only
-app.get('/resetallvotes', (req, res) => {
+app.get('/resetallvotes', (req, res, next) => {
   Sibling.updateMany({}, {
     'voteCount': 0
   }, (err, res) => {
@@ -121,7 +100,7 @@ app.get('/resetallvotes', (req, res) => {
 });
 
 // Admin/testing purposes only
-app.get('/nopejonny', (req, res) => {
+app.get('/nopejonny', (req, res, next) => {
   Sibling.updateOne({
     name: 'Jonny'
   }, {
@@ -150,6 +129,22 @@ app.use((req, res, next) => {
   //render the page-not-found template
   res.status(404).render('page-not-found'); //display a generic 404 page without error stack
 });
+
+// Global error handler
+app.use((err, req, res, next) => {
+  if(err) {
+    if(err.status === 404) {
+       res.status(404).render('page_not_found', { err }); //render the error status with the error stack
+    } else {
+      err.message = err.message; //|| "Oops, it looks like something went wrong on the server...";
+      // res.status(err.status || 500).render('error', { err }); //display the error status and render the error template w/ error message/object
+      console.log(err.status);
+      console.log(err.message);
+      res.redirect('/'); // Redirect back to / get route
+    }
+  }
+});
+
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('Server running on port 3000...');
