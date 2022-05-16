@@ -1,7 +1,3 @@
-window.onload = setTimeout(function() {
-  console.log('Refreshing browser...');
-  location.reload();
-}, 300000); // Refresh page every 5 minutes
 
 // Sibling with highest vote count gets the crown
 const ranks = document.getElementById('ranks');
