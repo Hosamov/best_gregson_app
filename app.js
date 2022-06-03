@@ -82,7 +82,6 @@ function saveVote (name, vote, cb) {
   setTimeout(() => {
     cb(saveNewVote(name, vote) >>> 0) // Pass in name and vote for a new vote to be saved
   }, (10000) >>> 0
-  // }, (Math.random() * 7000) >>> 0
 )}
 
 // Admin/testing purposes only
