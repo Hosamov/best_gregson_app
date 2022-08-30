@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "best-gregson-app",
   "builds": [
     {
       "src": "./app.js",
