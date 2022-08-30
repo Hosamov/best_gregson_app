@@ -28,7 +28,7 @@ const siblingsSchema = new mongoose.Schema({
 const Sibling = mongoose.model('Sibling', siblingsSchema);
 
 // Root "/" Directory
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
   // Search mongoDB collection:
   Sibling.find({
     voteCount: {
