@@ -64,7 +64,7 @@ function clickChecker() {
   const myTimer = () => {
     const clickEnd = clicks;
     const cpm = clickEnd - clickStart;
-    if(cpm >= 390) {
+    if(cpm >= 390) { 
       displayModalwindow(captchaKeys[0], captchaKeys[1], captchaKeys[2]);
     }
     clickStart = clickEnd; // Set clickStart to clickEnd last

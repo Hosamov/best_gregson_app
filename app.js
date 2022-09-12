@@ -43,6 +43,8 @@ app.get('/', (req, res, next) => {
   });
 });
 
+// TODO: Serve CPM to DB, use data from DB for CAPTCHA modal.
+
 app.post('/', timeout('5s'), bodyParser.json(), haltOnTimedout, (req, res, next) => {
   const siblingName = req.body.theSibling;
   
