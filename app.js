@@ -22,10 +22,15 @@ app.use(express.static("public"));
 const siblingsSchema = new mongoose.Schema({
   name: String,
   voteCount: Number,
-  rank: Number
+  rank: Number,
+});
+
+const cpmSchema = new mongoose.Schema({
+  cpm: Number
 });
 
 const Sibling = mongoose.model('Sibling', siblingsSchema);
+const CPM = mongoose.model('CPM', cpmSchema);
 
 // Root "/" Directory
 app.get('/', (req, res, next) => {
@@ -85,36 +90,6 @@ function saveVote (name, vote, cb) {
     cb(saveNewVote(name, vote) >>> 0) // Pass in name and vote for a new vote to be saved
   }, (10000) >>> 0
 )}
-
-// Admin/testing purposes only
-app.get('/resetallvotes', (req, res, next) => {
-  Sibling.updateMany({}, {
-    'voteCount': 0
-  }, (err, res) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(`Successfully reset all sibling votecounts...`);
-    }
-  })
-  res.redirect('/');
-});
-
-// Admin/testing purposes only
-app.get('/nopejonny', (req, res, next) => {
-  Sibling.updateOne({
-    name: 'Jonny'
-  }, {
-    'voteCount': 6139
-  }, (err, res) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(`Successfully reset Jonny's votecounts...`);
-    }
-  })
-  res.redirect('/');
-});
 
 //404 error handler
 app.use((req, res, next) => {
