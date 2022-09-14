@@ -31,10 +31,9 @@ A web app, using Node, Express, and MongoDB to vote for the best Gregson sibling
   - name String
   - voteCount Number
   - rank Number
-  - mustCaptcha Boolean
+  - mustCaptcha Boolean (t/f to determine if captcha is necessary)
   - captcha Array (holds two int values)
   - nextCaptcha Number (value for when captcha modal will display)
 
 ## Tracking Notes:
-
-- Updated: 9/13/2022
+- Updated: 9/14/2022
