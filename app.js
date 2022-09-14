@@ -28,6 +28,7 @@ const siblingsSchema = new mongoose.Schema({
   name: String,
   voteCount: Number,
   rank: Number,
+  mustCaptcha: Boolean,
   captcha: Array,
   nextCaptcha: Number
 });
@@ -57,6 +58,9 @@ app.get('/', (req, res, next) => {
 app.post('/', timeout('1s'), bodyParser.json(), haltOnTimedout, (req, res, next) => {
   const siblingName = req.body.theSibling;
   
+  // TEST CAPTCHA: 
+  updateCaptcha(siblingName, 20);
+
   // Send data to be tested to saveVote:
   saveVote(siblingName, 1, (err, data) => {
     if(err) return next(err);
@@ -96,6 +100,27 @@ function saveVote (name, vote, cb) {
   }, (1000) >>> 0
 )}
 
+function checkCaptcha(name) {
+  Sibling.findOne({name: name})
+}
+
+function updateCaptcha(name, num) {
+  const captchaNums = divideNum(num);
+  const nextCaptchaNum = getRandomNum(50, 1500); 
+  Sibling.findOneAndUpdate({
+    name: name,
+  }, {
+    'captcha': captchaNums,
+    'nextCaptcha': nextCaptchaNum
+  }, (err, res) => {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log('New captcha keys added.');
+    }
+  })
+}
+
 //* Function to return two random numbers that equal total argument value
 function divideNum(num) {
   const numArr = [];
@@ -111,7 +136,7 @@ function divideNum(num) {
 }
 
 //* Function to return a randomly generated number between min and max
-async function getRandomNum(min, max) {
+function getRandomNum(min, max) {
   min = Math.ceil(min);
   max = Math.ceil(max);
   return Math.floor(Math.random() * (max - min) + min);
