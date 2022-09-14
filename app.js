@@ -35,7 +35,7 @@ const siblingsSchema = new mongoose.Schema({
 
 const Sibling = mongoose.model('Sibling', siblingsSchema);
 
-// Root "/" Directory
+//* GET Root "/" route
 app.get('/', (req, res, next) => {
   // Search mongoDB collection:
   Sibling.find({
@@ -51,15 +51,12 @@ app.get('/', (req, res, next) => {
   });
 });
 
-// TODO: Serve CPM to DB, use data from DB for CAPTCHA modal.
-
-// app.post('/', timeout('1s'), bodyParser.json(), haltOnTimedout, (req, res,
-// next) => {
+//* POST '/' Route:
 app.post('/', timeout('1s'), bodyParser.json(), haltOnTimedout, (req, res, next) => {
   const siblingName = req.body.theSibling;
   
   // TEST CAPTCHA: 
-  updateCaptcha(siblingName, 20);
+  // updateCaptcha(siblingName, 20);
 
   // Send data to be tested to saveVote:
   saveVote(siblingName, 1, (err, data) => {
@@ -68,8 +65,8 @@ app.post('/', timeout('1s'), bodyParser.json(), haltOnTimedout, (req, res, next)
   });
 });
 
-//* Helper Functions//
-// Function to save a new vote for appropriate sibling:
+//! Helper Functions//
+//* Function to save a new vote for appropriate sibling:
 function saveNewVote(name, voteCount) {
   Sibling.findOneAndUpdate({
     name: name
@@ -88,22 +85,27 @@ function saveNewVote(name, voteCount) {
   });
 }
 
-// Send to error handler if no timeout:
+//* Send to error handler if no timeout:
 function haltOnTimedout(req, res, next) {
   if(!req.timedout) next();
 }
 
-// Save vote on a timeout:
+//* Save vote on a timeout:
 function saveVote (name, vote, cb) {
   setTimeout(() => {
     cb(saveNewVote(name, vote) >>> 0) // Pass in name and vote for a new vote to be saved
   }, (1000) >>> 0
 )}
 
+//! Captcha functions: //
+
+//* Handle when to show the captcha modal:
+//TODO: Figure out how to get info and based on that info, add other info...
 function checkCaptcha(name) {
   Sibling.findOne({name: name})
 }
 
+//* Handle updating new captcha details in db collection
 function updateCaptcha(name, num) {
   const captchaNums = divideNum(num);
   const nextCaptchaNum = getRandomNum(50, 1500); 
@@ -142,6 +144,8 @@ function getRandomNum(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
+//! Error Handlers: //
+
 //404 error handler
 app.use((req, res, next) => {
   //Create a new the error class object
@@ -172,6 +176,7 @@ app.use((err, req, res, next) => {
   }
 });
 
+//! Port //
 app.listen(process.env.PORT || 3000, () => {
   console.log('Server running on port 3000...');
 });
