@@ -28,6 +28,8 @@ const siblingsSchema = new mongoose.Schema({
   name: String,
   voteCount: Number,
   rank: Number,
+  captcha: Array,
+  nextCaptcha: Number
 });
 
 const Sibling = mongoose.model('Sibling', siblingsSchema);
@@ -105,7 +107,7 @@ function divideNum(num) {
     numArr.push(num/2, num/2);
     return numArr;
   }
-  return numArr;
+  return numArr; 
 }
 
 //* Function to return a randomly generated number between min and max
@@ -114,7 +116,6 @@ async function getRandomNum(min, max) {
   max = Math.ceil(max);
   return Math.floor(Math.random() * (max - min) + min);
 }
-
 
 //404 error handler
 app.use((req, res, next) => {

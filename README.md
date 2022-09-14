@@ -27,6 +27,12 @@ A web app, using Node, Express, and MongoDB to vote for the best Gregson sibling
 - Save CPM on the back end/db vs the front end. Use front end code to verify the
   human user based on CPM treshold.
   - A recaptcha will be randomly generated in order to proceed forward.
+- Schema
+  - name String
+  - voteCount Number
+  - rank Number
+  - captcha Array (holds two int values)
+  - nextCaptcha Number (value for when captcha modal will display)
 
 ## Tracking Notes:
 
