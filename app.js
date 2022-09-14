@@ -62,6 +62,7 @@ app.post('/', timeout('1s'), bodyParser.json(), haltOnTimedout, (req, res, next)
   });
 });
 
+//* Helper Functions//
 // Function to save a new vote for appropriate sibling:
 function saveNewVote(name, voteCount) {
   Sibling.findOneAndUpdate({
@@ -92,6 +93,28 @@ function saveVote (name, vote, cb) {
     cb(saveNewVote(name, vote) >>> 0) // Pass in name and vote for a new vote to be saved
   }, (1000) >>> 0
 )}
+
+//* Function to return two random numbers that equal total argument value
+function divideNum(num) {
+  const numArr = [];
+  const randomNum = Math.ceil(Math.random() * num);
+  if(num - randomNum !== 0) {
+    const remainder = num - randomNum;  
+    numArr.push(randomNum, remainder);
+  } else { // Divide down the middle when there is no remainder
+    numArr.push(num/2, num/2);
+    return numArr;
+  }
+  return numArr;
+}
+
+//* Function to return a randomly generated number between min and max
+async function getRandomNum(min, max) {
+  min = Math.ceil(min);
+  max = Math.ceil(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 
 //404 error handler
 app.use((req, res, next) => {

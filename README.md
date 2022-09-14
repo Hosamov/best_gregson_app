@@ -24,12 +24,9 @@ A web app, using Node, Express, and MongoDB to vote for the best Gregson sibling
   - rank (Number)
 
 ### TODOS:
-
 - Save CPM on the back end/db vs the front end. Use front end code to verify the
   human user based on CPM treshold.
-  - Each sibling listed will have a recaptcha field added to their collection
-  - Each sibling will require a recaptcha (randomly generated) to be completed by the user in
-    order to continue with voting.
+  - A recaptcha will be randomly generated in order to proceed forward.
 
 ## Tracking Notes:
 
