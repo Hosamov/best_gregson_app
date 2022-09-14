@@ -6,6 +6,11 @@ const timeout = require('connect-timeout');
 // Initialize DB:
 require('./initDB')();
 
+// Captcha:
+const { captcha } = require('./captcha');
+
+captcha('test');
+
 const app = express();
 
 app.set('view engine', 'pug'); // Using pug template
@@ -25,12 +30,7 @@ const siblingsSchema = new mongoose.Schema({
   rank: Number,
 });
 
-const cpmSchema = new mongoose.Schema({
-  cpm: Number
-});
-
 const Sibling = mongoose.model('Sibling', siblingsSchema);
-const CPM = mongoose.model('CPM', cpmSchema);
 
 // Root "/" Directory
 app.get('/', (req, res, next) => {
@@ -50,7 +50,7 @@ app.get('/', (req, res, next) => {
 
 // TODO: Serve CPM to DB, use data from DB for CAPTCHA modal.
 
-app.post('/', timeout('5s'), bodyParser.json(), haltOnTimedout, (req, res, next) => {
+app.post('/', timeout('1s'), bodyParser.json(), haltOnTimedout, (req, res, next) => {
   const siblingName = req.body.theSibling;
   
   // Send data to be tested to saveVote:
@@ -88,7 +88,7 @@ function haltOnTimedout(req, res, next) {
 function saveVote (name, vote, cb) {
   setTimeout(() => {
     cb(saveNewVote(name, vote) >>> 0) // Pass in name and vote for a new vote to be saved
-  }, (10000) >>> 0
+  }, (1000) >>> 0
 )}
 
 //404 error handler

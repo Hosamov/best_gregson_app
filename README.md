@@ -3,11 +3,14 @@
 A web app, using Node, Express, and MongoDB to vote for the best Gregson sibling
 
 ## Technologies & Libraries Used:
-
 - Node.js
 - Express
 - MongoDB
 - Pug
+
+### Other Libraries Used:
+- connect-timeout
+- body-parser
 
 ## Dev Notes:
 
@@ -22,8 +25,12 @@ A web app, using Node, Express, and MongoDB to vote for the best Gregson sibling
 
 ### TODOS:
 
-- Save CPM on the back end/db vs the front end. Use front end code to verify the human user based on CPM treshold.
+- Save CPM on the back end/db vs the front end. Use front end code to verify the
+  human user based on CPM treshold.
+  - Each sibling listed will have a recaptcha field added to their collection
+  - Each sibling will require a recaptcha (randomly generated) to be completed by the user in
+    order to continue with voting.
 
 ## Tracking Notes:
 
-- Updated: 9/12/2022
+- Updated: 9/13/2022
